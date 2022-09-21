@@ -67,6 +67,25 @@
                                 </div>
                             </li>
                         @endguest
+                        <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{__('Language') }}
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a  class="dropdown-item" href="{{ url('language/ar') }}" role="button" >
+                                    {{__('العربية') }}
+                                </a>
+                                <a  class="dropdown-item" href="{{ url('language/en') }}" role="button" >
+                                    {{__('الانجليزية') }}
+                                </a>
+                                <a  class="dropdown-item" href="{{ url('language/fa') }}" role="button" >
+                                    {{__('الفارسية') }}
+                                </a>
+                                <a  class="dropdown-item" href="{{ url('language/tr') }}" role="button" >
+                                    {{__('التركية') }}
+                                </a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

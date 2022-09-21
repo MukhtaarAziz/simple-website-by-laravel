@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +15,43 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+// Authentication Routes.
+Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Langauges Routes
+Route::get('language/ar',function(){
+    Cookie::queue('language','ar',3600);
+    to_route('home.page');
+});
+Route::get('language/en',function(){
+    Cookie::queue('language','en',3600);
+    to_route('home.page');
+});
+Route::get('language/fa',function(){
+    Cookie::queue('language','fa',3600);
+    to_route('home.page');
+});
+Route::get('language/tr',function(){
+    Cookie::queue('language','tr',3600);
+    to_route('home.page');
 });
 
-Auth::routes();
+// Guest Area
+Route::middleware([])->group( function() {
+    // welcome page.
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('home.page');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // about page.
+    Route::get('/about', function(){
+        return view('about');
+    })->name('about.page');
+
+    // contact page.
+    Route::get('/contact', function(){
+        return view('contact');
+    })->name('contact.page');
+});
