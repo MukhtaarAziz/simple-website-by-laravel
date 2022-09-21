@@ -23,23 +23,23 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Langauges Routes
 Route::get('language/ar',function(){
     Cookie::queue('language','ar',3600);
-    to_route('home.page');
+    return to_route('home.page');
 });
 Route::get('language/en',function(){
     Cookie::queue('language','en',3600);
-    to_route('home.page');
+    return to_route('home.page');
 });
 Route::get('language/fa',function(){
     Cookie::queue('language','fa',3600);
-    to_route('home.page');
+    return to_route('home.page');
 });
 Route::get('language/tr',function(){
     Cookie::queue('language','tr',3600);
-    to_route('home.page');
+    return to_route('home.page');
 });
 
 // Guest Area
-Route::middleware([])->group( function() {
+Route::middleware(['language'])->group( function() {
     // welcome page.
     Route::get('/', function () {
         return view('welcome');
