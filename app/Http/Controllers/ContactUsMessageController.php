@@ -40,4 +40,34 @@ class ContactUsMessageController extends Controller
 
         return to_route('contact.page')->with('flashMessage',['status'=>'success','content'=>'The Message has been sent']);
     }
+
+    // index (listing all contact messages)
+    public function index(Request $req){
+        $contactUsMessages = ContactUsMessage::paginate(6);
+
+
+
+        return view('contactusmessages.index',['contactUsMessages'=>$contactUsMessages]);
+    }
+    // show single contact us message
+    public function show(Request $req,$messageID){
+        $contactUsMessage = ContactUsMessage::where('id','=',$messageID)->first();
+        if($contactUsMessage){
+            return view('contactusmessages.show',['contactUsMessage' => $contactUsMessage]);
+        }else{
+            abort(404);
+        }
+    }
+
+    // destroy (delete contact us messages)
+    public function destroy(Request $req,$messageID){
+        $contactUsMessage = ContactUsMessage::where('id','=',$messageID)->first();
+        if($contactUsMessage){
+            $contactUsMessage->delete();
+            return to_route('contactusmessage.index')->with('flashMessage',['status'=>'success','content'=>'message has been deleted']);
+        }else{
+            return to_route('contactusmessage.index')->with('flashMessage',['status'=>'danger','content'=>'message not found!']);
+
+        }
+    }
 }

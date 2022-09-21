@@ -14,16 +14,19 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
+    <!-- Fontawesome 4.7 -->
+    <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet"/>
+
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm sticky-top ">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ __('navbar.logo') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -49,7 +52,7 @@
                         @guest
                         @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link {{ (request()->path() == 'login')? 'active' : '' }} " href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link {{ (request()->path() == 'login')? 'active' : '' }} " href="{{ route('login') }}"> <i class="fa fa-sign-in"></i> {{ __('navbar.login') }}</a>
                         </li>
                         @endif
 
@@ -59,15 +62,21 @@
                         </li>
                         @endif
                         @else
+                        <li class="nav-item ">
+                            <a class="nav-link {{ (request()->path() == 'admins/messages')? 'active' : '' }} " href="{{ route('contactusmessage.index') }}"> <i class="fa fa-envelope"></i> {{ __('navbar.messages') }}</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
+                                <i class="fa fa-user"></i> {{ Auth::user()->name }}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('admins.profile') }}" >
+                                        <i class="fa fa-user"></i> <span class="px-2">{{ __('navbar.profile') }}</span>
+                                    </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                    <i class="fa fa-sign-out"></i> {{ __('navbar.logout') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -78,32 +87,46 @@
                         @endguest
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{__('Language') }}
+                                <i class="fa fa-globe"></i> {{__('navbar.language') }}
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ url('language/ar') }}" role="button">
-                                    {{__('العربية') }}
-                                </a>
-                                <a class="dropdown-item" href="{{ url('language/en') }}" role="button">
-                                    {{__('الانجليزية') }}
-                                </a>
-                                <a class="dropdown-item" href="{{ url('language/fa') }}" role="button">
-                                    {{__('الفارسية') }}
-                                </a>
-                                <a class="dropdown-item" href="{{ url('language/tr') }}" role="button">
-                                    {{__('التركية') }}
-                                </a>
-                            </div>
+
+                            <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown">
+                                <li class="d-flex justify-content-start">
+                                    <a  class="dropdown-item" href="{{ url('language/ar') }}" role="button">
+                                        {{__('العربية') }}
+                                    </a>
+                                </li>
+                                <li class="d-flex justify-content-start">
+                                    <a  class="dropdown-item" href="{{ url('language/en') }}" role="button">
+                                        {{__('الانجليزية') }}
+                                    </a>
+                                </li>
+                                <li class="d-flex justify-content-start">
+                                    <a  class="dropdown-item" href="{{ url('language/fa') }}" role="button">
+                                        {{__('الفارسية') }}
+                                    </a>
+                                </li>
+                                <li class="d-flex justify-content-start">
+                                    <a  class="dropdown-item" href="{{ url('language/tr') }}" role="button">
+                                        {{__('التركية') }}
+                                    </a>
+                                </li>
+                            </ul>
+
+
+
+
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="">
             @yield('content')
         </main>
     </div>
-</body>
+    @include('includes.footer')
 
+</body>
 </html>
