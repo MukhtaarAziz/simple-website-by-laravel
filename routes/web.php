@@ -69,7 +69,7 @@ Route::prefix('admins')->middleware(['language','auth'])->group( function() {
     Route::get('/messages/{messageID}',[ContactUsMessageController::class,'show'])->name('contactusmessage.show');
 });
 
-// admin area
+// admins area
 Route::get('/admins',[UserController::class,'profile']) ->middleware(['language','auth'])->name('admins.profile');
 Route::post('/admins/update-email',[UserController::class,'updateUserEmail']) ->middleware(['language','auth'])->name('admins.update-email');
 

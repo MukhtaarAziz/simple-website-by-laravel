@@ -45,8 +45,6 @@ class ContactUsMessageController extends Controller
     public function index(Request $req){
         $contactUsMessages = ContactUsMessage::paginate(6);
 
-
-
         return view('contactusmessages.index',['contactUsMessages'=>$contactUsMessages]);
     }
     // show single contact us message

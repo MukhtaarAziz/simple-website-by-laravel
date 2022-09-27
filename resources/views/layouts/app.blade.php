@@ -1,5 +1,11 @@
+@php
+$isRTL = false;
+if(in_array(app()->getLocale(),MyApplication::RTL_LANGUAGES)){
+    $isRTL = true;
+}
+@endphp
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ (in_array( app()->getLocale(),\App\MukhtaarAziz\MyApplication::RTL_LANGUAGES))? 'rtl' : 'ltr' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ (in_array( app()->getLocale(),MyApplication::RTL_LANGUAGES))? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="utf-8">
@@ -17,13 +23,17 @@
     <!-- Fontawesome 4.7 -->
     <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet"/>
 
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @if(in_array(app()->getLocale(),MyApplication::RTL_LANGUAGES))
+    <link rel="stylesheet" href="{{ url('assets/css/bootstrap.rtl.min.css') }}">
+    @else
+    <link rel="stylesheet" href="{{ url('assets/css/bootstrap.min.css') }}">
+    @endif
+    <link rel="stylesheet" href="{{ url('assets/css/style.css') }}">
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm sticky-top ">
+        <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm  sticky-top ">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ __('navbar.logo') }}
@@ -34,7 +44,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav {{ (in_array( app()->getLocale(),\App\MukhtaarAziz\MyApplication::RTL_LANGUAGES))? 'ms-auto' : 'me-auto' }}">
+                    <ul class="navbar-nav {{ ($isRTL)? 'me-auto' : 'me-auto' }}">
                         <li class="nav-item">
                             <a class="nav-link {{ (request()->path() == '/')? 'active' : '' }}" href="{{ route('home.page') }}">{{ __('navbar.home') }}</a>
                         </li>
@@ -47,7 +57,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav  {{ (in_array( app()->getLocale(),\App\MukhtaarAziz\MyApplication::RTL_LANGUAGES))? 'me-auto' : 'ms-auto' }}">
+                    <ul class="navbar-nav  {{ ($isRTL)? 'ms-auto' : 'ms-auto' }}">
                         <!-- Authentication Links -->
                         @guest
                         @if (Route::has('login'))
@@ -126,7 +136,8 @@
             @yield('content')
         </main>
     </div>
-    @include('includes.footer')
+        @include('includes.footer')
 
+    <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>

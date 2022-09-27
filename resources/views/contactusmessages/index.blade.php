@@ -36,9 +36,12 @@
                                 <form action="{{ route('contactusmessage.destroy',['messageID'=>$contactUsMessage->id]) }}" method="post">
                                     @csrf
                                     @method('delete')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('are you sure to delete this message')">delete</button>
+                                    @php
+                                        $deletingMessage = __('messages.delete_contactusmessage');
+                                    @endphp
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('{{ $deletingMessage}}')">delete</button>
                                 </form>
-                                <a href="{{ route('contactusmessage.show',['messageID'=>$contactUsMessage->id]) }}" class="btn btn-outline-secondary card-link"> {{ __('Show')   }}</a>
+                                <a href="{{ route('contactusmessage.show',array_merge(['messageID'=>$contactUsMessage->id],Request::all() )) }}" class="btn btn-outline-secondary card-link"> {{ __('Show')   }}</a>
                             </div>
                         </div>
                     </div>
